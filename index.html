@@ -76,7 +76,7 @@ body.dark .back{color:var(--navy2)}
 body.dark .tabs{border-color:var(--border)}
 body.dark .tab{color:var(--muted)}
 body.dark .tab.on{color:var(--navy2);border-bottom-color:var(--navy2)}
-body.dark .fi,.dark .fs,.dark .ft{background:var(--bg2);color:var(--text);border-color:var(--border2)}
+body.dark .fi,body.dark .fs,body.dark .ft{background:var(--bg2);color:var(--text);border-color:var(--border2)}
 body.dark #toast{background:#E8EEFF;color:#0C1220}
 
 /* ── SCREENS ── */
@@ -334,6 +334,52 @@ body.dark #toast{background:#E8EEFF;color:#0C1220}
 .code-w{display:flex;gap:.5rem}
 .code-t{width:110px;flex-shrink:0}
 
+/* ── AUTOCOMPLETE ESCUELA ── */
+.ac-wrap{position:relative}
+.ac-inp{width:100%;padding:.6rem .875rem .6rem 2.25rem;border:1.5px solid var(--border2);border-radius:var(--rs);background:var(--bg2);font-size:.875rem;transition:border-color .15s,box-shadow .15s;box-sizing:border-box}
+.ac-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,47,110,.08);background:#fff}
+.ac-ico{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:.9rem}
+.ac-clear{position:absolute;right:.625rem;top:50%;transform:translateY(-50%);color:var(--muted);background:none;border:none;cursor:pointer;font-size:.9rem;padding:.2rem;line-height:1;display:none}
+.ac-clear.show{display:block}
+.ac-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow2);z-index:500;max-height:260px;overflow-y:auto;display:none}
+.ac-drop.open{display:block}
+.ac-item{padding:.55rem .875rem;cursor:pointer;display:flex;align-items:center;gap:.625rem;border-bottom:1px solid var(--border);transition:background .1s}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.active{background:var(--navy3)}
+.ac-av{width:32px;height:32px;border-radius:6px;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.6rem;color:var(--navy);flex-shrink:0;text-align:center;line-height:1.2}
+.ac-item:hover .ac-av,.ac-item.active .ac-av{background:var(--navy);color:#fff}
+.ac-info{flex:1;min-width:0}
+.ac-iname{font-size:.83rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-imeta{font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-empty{padding:1rem;text-align:center;color:var(--muted);font-size:.82rem}
+body.dark .ac-inp{background:var(--bg2);border-color:var(--border2);color:var(--text)}
+body.dark .ac-inp:focus{background:var(--bg)}
+body.dark .ac-drop{background:var(--surface);border-color:var(--border)}
+body.dark .ac-item:hover,body.dark .ac-item.active{background:var(--navy3)}
+
+/* ── AUTOCOMPLETE ESCUELA ── */
+.ac-wrap{position:relative;width:100%}
+.ac-ico{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;z-index:1}
+.ac-inp{width:100%;padding:.6rem .875rem .6rem 2.25rem;border:1.5px solid var(--border2);border-radius:var(--rs);background:var(--bg2);font-size:.875rem;font-family:inherit;transition:border-color .15s,box-shadow .15s;color:var(--text)}
+.ac-inp:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,47,110,.08);background:var(--surface)}
+.ac-clear{position:absolute;right:.5rem;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:var(--border);color:var(--muted);font-size:.75rem;display:none;align-items:center;justify-content:center;cursor:pointer;border:none;line-height:1;padding:0}
+.ac-clear.show{display:flex}
+.ac-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--rs);box-shadow:var(--shadow2);z-index:500;max-height:260px;overflow-y:auto;display:none}
+.ac-drop.open{display:block}
+.ac-item{padding:.55rem .875rem;cursor:pointer;display:flex;align-items:center;gap:.625rem;transition:background .1s;border-bottom:1px solid var(--border)}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.active{background:var(--navy3)}
+.ac-num{font-size:.7rem;font-weight:700;color:var(--navy);background:var(--navy3);padding:.1rem .4rem;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.ac-name{font-size:.85rem;font-weight:500;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-loc{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.ac-tag{font-size:.65rem;padding:.1rem .35rem;border-radius:99px;white-space:nowrap;flex-shrink:0}
+.ac-empty{padding:.875rem;text-align:center;color:var(--muted);font-size:.82rem}
+body.dark .ac-inp{background:var(--bg2);color:var(--text);border-color:var(--border2)}
+body.dark .ac-inp:focus{background:var(--bg);border-color:var(--navy)}
+body.dark .ac-drop{background:var(--surface);border-color:var(--border2)}
+body.dark .ac-item:hover,body.dark .ac-item.active{background:var(--navy3)}
+body.dark .ac-num{background:var(--navy3);color:var(--navy2)}
+
 /* ── RECEPCIÓN ── */
 .rec-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.125rem;margin-bottom:.5rem;display:flex;align-items:flex-start;gap:1rem;transition:box-shadow .15s}
 .rec-item:hover{box-shadow:var(--shadow)}
@@ -345,6 +391,8 @@ body.dark #toast{background:#E8EEFF;color:#0C1220}
 .rec-obs{font-size:.8rem;color:var(--text2);line-height:1.4;margin-top:.3rem;font-style:italic}
 .rec-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.4rem}
 .rec-missing{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem}
+.rec-missing-row{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem;margin-top:.4rem;padding:.35rem .5rem;background:var(--amber2);border-radius:var(--rs);font-size:.72rem}
+.rec-miss-label{font-weight:700;color:var(--amber);font-size:.68rem;white-space:nowrap}
 .miss-pill{font-size:.67rem;padding:.15rem .5rem;border-radius:99px;background:var(--amber2);color:var(--amber);font-weight:600}
 .alerta-pill{font-size:.67rem;padding:.15rem .5rem;border-radius:99px;background:var(--red2);color:var(--red);font-weight:600;border:1px solid #e0b0b0}
 .rec-actions{display:flex;flex-direction:column;gap:.35rem;flex-shrink:0}
@@ -670,7 +718,7 @@ body.dark #toast{background:#E8EEFF;color:#0C1220}
       <div class="stats" id="rec-stats"></div>
       <div class="search-row" style="margin-bottom:.75rem">
         <div class="search-w"><span class="s-ico">🔍</span><input class="s-inp" id="rec-search" placeholder="Buscar escuela..." oninput="renderRecepcion()"></div>
-        <select class="fsel" id="rec-filter-per" onchange="renderRecepcion()" style="min-width:150px;flex:0 0 auto">
+        <select class="fsel" id="rec-filter-per" onchange="ST.sharedPeriodo=this.value||periodoActual();renderRecepcion()" style="min-width:150px;flex:0 0 auto">
           <option value="">Todos los períodos</option>
         </select>
         <select class="fsel" id="rec-filter-alert" onchange="renderRecepcion()" style="min-width:130px;flex:0 0 auto">
@@ -748,9 +796,13 @@ body.dark #toast{background:#E8EEFF;color:#0C1220}
     <div class="fg">
       <div class="ff c2">
         <label class="fl">Escuela</label>
-        <select class="fs" id="rm-school" onchange="onRmSchoolChange()">
-          <option value="">— Seleccionar —</option>
-        </select>
+        <div class="ac-wrap" id="rm-ac-wrap">
+          <span class="ac-ico">🔍</span>
+          <input class="ac-inp" id="rm-ac-inp" type="text" placeholder="Escribí número o nombre de escuela..." autocomplete="off" oninput="acSearch()" onkeydown="acKey(event)" onfocus="acSearch()">
+          <button class="ac-clear" id="rm-ac-clear" onclick="acClear()" tabindex="-1">✕</button>
+          <div class="ac-drop" id="rm-ac-drop"></div>
+        </div>
+        <input type="hidden" id="rm-school">
       </div>
       <div class="ff">
         <label class="fl">Fecha de recepción</label>
@@ -758,7 +810,7 @@ body.dark #toast{background:#E8EEFF;color:#0C1220}
       </div>
       <div class="ff">
         <label class="fl">Período lectivo</label>
-        <select class="fs" id="rm-periodo"></select>
+        <select class="fs" id="rm-periodo" onchange="onRecPeriodoChange()"></select>
       </div>
       <div class="ff c2">
         <label class="fl">Motivo / Trámite</label>
@@ -900,6 +952,7 @@ var ST = {
   sf:'all', editSId:null,
   vCtx:{id:null,idx:null}, pCtx:{id:null},
   cIdx:-1, detId:null,
+  sharedPeriodo: periodoActual(), // período vinculado entre secciones
   pdf:{est:['aldia','vigente','sinactiva','nuncatuvo'],k:['con','sin'],banco:['con','sin'],inc:[],locs:[]}
 };
 
@@ -1086,7 +1139,15 @@ function doLogout(){
 // NAVIGATION
 // ════════════════════════════════════════════════════════════
 function goTo(name){
-  if(name==='recepcion'){ renderRecepcion(); renderRecStats(); fillRecPerFilter(); }
+  if(name==='recepcion'){
+    renderRecepcion(); renderRecStats(); fillRecPerFilter();
+    // Sync period filter to shared period after options are built
+    var recFil = el('rec-filter-per');
+    if(recFil && ST.sharedPeriodo) {
+      var opt = recFil.querySelector('option[value="'+ST.sharedPeriodo+'"]');
+      if(opt) { recFil.value = ST.sharedPeriodo; renderRecepcion(); }
+    }
+  }
   ['escuelas','coords','asam','informes','users','recepcion'].forEach(function(s){
     var sec=el('sec-'+s);if(sec)sec.className='sec';
     var ni=el('ni-'+s);if(ni)ni.className='nav-i';
@@ -1619,6 +1680,8 @@ function renderDetail(id,tab){
   }
   var e=etiq(s),coord=getCoord(s.LOCALIDAD),cord=getCordLabel(s.LOCALIDAD);
   var ps=pj(s.PERIODOS,[]),vs=pj(s.VISITAS,[]);
+  // Count receptions for this school
+  var recCount = getRec().filter(function(r){return r.schoolId===id;}).length;
   var tabs=['general','cooperadora','comision','visitas'];
   var tabLabels=['📋 General','🤝 Cooperadora','👤 Comisión','📍 Visitas ('+vs.length+')'];
   var tabHtml=tabs.map(function(t,i){return '<button class="tab'+(tab===t?' on':'')+'" onclick="renderDetail(\''+id+'\',\''+t+'\')">'+tabLabels[i]+'</button>'}).join('');
@@ -1634,9 +1697,11 @@ function renderDetail(id,tab){
         '<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.25rem">'+
           '<span style="font-size:1.15rem;font-weight:800">'+esc(s.NOMBRE||'Sin nombre')+'</span>'+
           '<span class="tag '+e.c+'">'+e.i+' '+e.l+'</span>'+
+          (recCount?'<span class="tag tb" title="Recepciones registradas">📥 '+recCount+' recepción'+(recCount!==1?'es':'')+'</span>':'')+
         '</div>'+
         '<div style="font-size:.75rem;color:var(--muted)">'+esc(s.NUMERO||'—')+' · '+esc(s.LOCALIDAD||'—')+' · '+esc(coord)+' · '+esc(cord)+'</div>'+
       '</div>'+
+      '<button class="btn btn-s btn-sm" onclick="openRecModalForSchool(\''+esc(id)+'\')">📥 Recepción</button>'+
       '<button class="btn btn-s btn-sm" onclick="openSM(\''+esc(id)+'\')">✏️ Editar</button>'+
       (ST.user&&ST.user.role==='admin'?'<button class="btn btn-d btn-sm" onclick="deleteSchool(\''+esc(id)+'\')">🗑 Eliminar</button>':'')+
     '</div>'+
@@ -1805,7 +1870,10 @@ function tabVis(s,vs){
   return '<div style="max-width:680px">'+
     '<div style="display:flex;justify-content:flex-end;margin-bottom:1rem"><button class="btn btn-p" onclick="openVM(\''+s.ID+'\',null)">+ Nueva visita</button></div>'+
     (!vs.length?'<div class="es"><div class="ei">📍</div><div class="et">Sin visitas registradas</div></div>':
-      [].concat(vs).reverse().map(function(v,ri){var i=vs.length-1-ri;return '<div class="vitem"><div class="vhd"><span class="vtipo">'+esc(v.tipo||'Presencial')+'</span><span class="vdate">'+esc(v.fecha||'')+'</span><div style="display:flex;gap:.35rem;margin-left:auto"><button class="btn btn-s btn-xs" onclick="openVM(\''+s.ID+'\','+i+')">✏️</button><button class="btn btn-d btn-xs" onclick="delV(\''+s.ID+'\','+i+')">🗑</button></div></div><div class="vdesc" onclick="openVM(\''+s.ID+'\','+i+')">'+esc(v.descripcion||'Sin descripción')+'</div>'+(v.responsable?'<div class="vdate" style="margin-top:.2rem">👤 '+esc(v.responsable)+'</div>':'')+(v.proxAccion?'<div class="vprox">→ '+esc(v.proxAccion)+'</div>':'')+'</div>'}).join(''))+
+      [].concat(vs).reverse().map(function(v,ri){var i=vs.length-1-ri;
+        var recBadge = v.fromRecepcion ? '<span class="tag tb" style="font-size:.62rem;padding:.1rem .4rem;margin-left:.35rem">📥 Recepción</span>' : '';
+        return '<div class="vitem"><div class="vhd"><span class="vtipo">'+esc(v.tipo||'Presencial')+'</span>'+recBadge+'<span class="vdate">'+esc(v.fecha||'')+'</span><div style="display:flex;gap:.35rem;margin-left:auto">'+(!v.fromRecepcion?'<button class="btn btn-s btn-xs" onclick="openVM(\''+s.ID+'\','+i+')">✏️</button>':'')+'<button class="btn btn-d btn-xs" onclick="delV(\''+s.ID+'\','+i+')">🗑</button></div></div><div class="vdesc" '+(v.fromRecepcion?'':' onclick="openVM(\''+s.ID+'\','+i+')"')+'>'+esc(v.descripcion||'Sin descripción')+'</div>'+(v.responsable?'<div class="vdate" style="margin-top:.2rem">👤 '+esc(v.responsable)+'</div>':'')+(v.proxAccion?'<div class="vprox">→ '+esc(v.proxAccion)+'</div>':'')+'</div>';
+      }).join(''))+
   '</div>'
 }
 
@@ -2617,22 +2685,149 @@ async function saveEditPeriodo(){
 function getRec(){ try{var r=localStorage.getItem('coop_rec');return r?JSON.parse(r):[]}catch(e){return []} }
 function saveRec(arr){ try{localStorage.setItem('coop_rec',JSON.stringify(arr))}catch(e){} }
 
+// ── AUTOCOMPLETE ESCUELA (recepción) ──────────────────────
+var AC = { selectedId: null, results: [], activeIdx: -1 };
+
+function acClose(){
+  var drop = el('rm-ac-drop');
+  if(drop) drop.classList.remove('open');
+  AC.activeIdx = -1;
+}
+
+function acHighlight(){
+  var drop = el('rm-ac-drop'); if(!drop) return;
+  var items = drop.querySelectorAll('.ac-item');
+  items.forEach(function(it, i){ it.classList.toggle('active', i === AC.activeIdx); });
+  if(AC.activeIdx >= 0 && items[AC.activeIdx]) items[AC.activeIdx].scrollIntoView({block:'nearest'});
+}
+
+function acSearch(){
+  var q = (el('rm-ac-inp').value||'').toLowerCase().trim();
+  var drop = el('rm-ac-drop');
+  var clr = el('rm-ac-clear');
+  if(clr) clr.classList.toggle('show', q.length > 0 || !!AC.selectedId);
+
+  if(!q && AC.selectedId){ acClear(); return; }
+  if(!q){ acClose(); AC.results = []; return; }
+
+  var sorted = ST.schools.slice().sort(function(a,b){
+    return (a.NUMERO||'').localeCompare(b.NUMERO||'','es',{numeric:true});
+  });
+  AC.results = sorted.filter(function(s){
+    return (s.NUMERO||'').toLowerCase().includes(q) ||
+           (s.NOMBRE||'').toLowerCase().includes(q) ||
+           (s.LOCALIDAD||'').toLowerCase().includes(q);
+  }).slice(0, 40);
+
+  AC.activeIdx = -1;
+  renderAcDrop();
+  if(drop) drop.classList.toggle('open', AC.results.length > 0);
+}
+
+function renderAcDrop(){
+  var drop = el('rm-ac-drop'); if(!drop) return;
+  if(!AC.results.length){
+    drop.innerHTML = '<div class="ac-empty">Sin resultados. Probá con otro término.</div>';
+    return;
+  }
+  drop.innerHTML = AC.results.map(function(s, i){
+    var e2 = etiq(s);
+    var num = (s.NUMERO||'').split(' ').slice(0,2).join(' ');
+    var sid = esc(s.ID).replace(/'/g,'&#39;');
+    return '<div class="ac-item'+(i===AC.activeIdx?' active':'')+'" data-id="'+esc(s.ID)+'" onmousedown="acSelect(\''+sid+'\')">'+
+      '<div class="ac-av">'+esc(num)+'</div>'+
+      '<div class="ac-info">'+
+        '<div class="ac-iname">'+esc(s.NOMBRE||'—')+'</div>'+
+        '<div class="ac-imeta">'+esc(s.LOCALIDAD||'—')+' <span class="tag '+e2.c+'" style="font-size:.62rem;padding:.1rem .35rem">'+e2.i+' '+e2.l+'</span></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function acKey(e){
+  var drop = el('rm-ac-drop');
+  if(!drop || !drop.classList.contains('open')) return;
+  if(e.key==='ArrowDown'){
+    e.preventDefault();
+    AC.activeIdx = Math.min(AC.activeIdx+1, AC.results.length-1);
+    acHighlight();
+  } else if(e.key==='ArrowUp'){
+    e.preventDefault();
+    AC.activeIdx = Math.max(AC.activeIdx-1, 0);
+    acHighlight();
+  } else if(e.key==='Enter'){
+    e.preventDefault();
+    if(AC.activeIdx>=0 && AC.results[AC.activeIdx]) acSelect(AC.results[AC.activeIdx].ID);
+    else if(AC.results.length===1) acSelect(AC.results[0].ID);
+  } else if(e.key==='Escape'){
+    acClose();
+  }
+}
+
+function acSelect(id){
+  var s = gS(id); if(!s) return;
+  AC.selectedId = id;
+  el('rm-school').value = id;
+  el('rm-ac-inp').value = s.NUMERO + ' – ' + s.NOMBRE;
+  acClose();
+  var clr = el('rm-ac-clear'); if(clr) clr.classList.add('show');
+  AC.results = [];
+  onRmSchoolChange();
+}
+
+function acClear(){
+  AC.selectedId = null; AC.results = []; AC.activeIdx = -1;
+  var inp = el('rm-ac-inp'); if(inp){ inp.value = ''; }
+  el('rm-school').value = '';
+  acClose();
+  var clr = el('rm-ac-clear'); if(clr) clr.classList.remove('show');
+  var info = el('rm-school-info'); if(info) info.innerHTML = 'Seleccioná una escuela para ver su información';
+  var miss = el('rm-missing-info'); if(miss) miss.style.display = 'none';
+}
+
+// Cerrar dropdown al hacer click fuera (único listener)
+document.addEventListener('click', function(e){
+  var wrap = el('rm-ac-wrap');
+  if(wrap && !wrap.contains(e.target)) acClose();
+});
+
+// Open recepcion modal pre-filled with a specific school
+function openRecModalForSchool(schoolId){
+  openRecModal();
+  setTimeout(function(){
+    var s = gS(schoolId);
+    if(!s) return;
+    AC.selectedId = schoolId;
+    el('rm-school').value = schoolId;
+    el('rm-ac-inp').value = s.NUMERO + ' – ' + s.NOMBRE;
+    var clr = el('rm-ac-clear');
+    if(clr) clr.classList.add('show');
+    acClose();
+    onRmSchoolChange();
+  }, 200);
+}
+
+function onRecPeriodoChange(){
+  var sel = el('rm-periodo');
+  if(sel && sel.value) {
+    ST.sharedPeriodo = sel.value;
+  }
+}
+
 function openRecModal(){
-  var sel = el('rm-school');
-  sel.innerHTML = '<option value="">— Seleccionar escuela —</option>' +
-    ST.schools.slice().sort(function(a,b){return (a.NOMBRE||'').localeCompare(b.NOMBRE||'','es')})
-      .map(function(s){ return '<option value="'+esc(s.ID)+'">'+esc(s.NUMERO+' – '+s.NOMBRE)+'</option>'; }).join('');
+  acClear();
   var hoy = new Date(); var m=hoy.getMonth()+1, d=hoy.getDate();
   el('rm-fecha').value = hoy.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(d<10?'0':'')+d;
   var perSel = el('rm-periodo');
-  perSel.innerHTML = buildPeriodOpts(periodoActual(), true);
+  perSel.innerHTML = buildPeriodOpts(ST.sharedPeriodo || periodoActual(), true);
+  perSel.value = ST.sharedPeriodo || periodoActual();
   el('rm-obs').value = '';
+  el('rm-motivo').value = 'Presentación documentación';
   el('rm-alerta').checked = false;
   el('rm-alerta-desc').value = '';
   el('rm-alerta-desc-row').style.display = 'none';
-  el('rm-school-info').innerHTML = 'Seleccioná una escuela para ver su información';
-  el('rm-missing-info').style.display = 'none';
   openMov('rm-ov');
+  setTimeout(function(){ var inp=el('rm-ac-inp'); if(inp) inp.focus(); }, 120);
 }
 
 function toggleAlertaDesc(){
@@ -2679,9 +2874,35 @@ async function saveRecepcion(){
   rec.unshift(entry);
   saveRec(rec);
   if(ST.gasUrl){ try{ await gasReq({action:'saveRecepcion',data:entry}); }catch(e){ console.warn('GAS rec:',e); } }
+
+  // Guardar también como visita en la escuela (tipo Presencial Consejo Escolar)
+  var vs = pj(s.VISITAS, []);
+  var motivoTexto = entry.motivo + (entry.obs ? ' – ' + entry.obs : '');
+  var visitaRec = {
+    fecha: entry.fecha,
+    tipo: 'Presencial Consejo Escolar',
+    responsable: ST.user ? ST.user.name : '',
+    descripcion: '📥 [Recepción] ' + motivoTexto + (entry.alerta ? ' ⚠️ ' + (entry.alertaDesc||'Requiere seguimiento') : ''),
+    proxAccion: '',
+    fechaSeguimiento: '',
+    fromRecepcion: true
+  };
+  vs.push(visitaRec);
+  s.VISITAS = JSON.stringify(vs);
+  try { await saveSchoolR(s); } catch(e) { console.warn('Visita desde recepción:', e); }
+
+  // Sync shared period
+  if(entry.periodo) ST.sharedPeriodo = entry.periodo;
+
   closeMov('rm-ov');
   renderRecepcion(); renderRecStats(); fillRecPerFilter();
-  toast('✅ Recepción registrada – '+esc(s.NOMBRE));
+  // Re-apply period filter so the new entry is visible
+  var recFil = el('rec-filter-per');
+  if(recFil && entry.periodo) {
+    var opt = recFil.querySelector('option[value="'+entry.periodo+'"]');
+    if(opt){ recFil.value = entry.periodo; renderRecepcion(); }
+  }
+  toast('✅ Recepción registrada y visita guardada – '+esc(s.NOMBRE));
 }
 
 function formatFecha(ds){
@@ -2715,6 +2936,24 @@ function renderRecepcion(){
     return;
   }
   e.innerHTML = rec.map(function(r){
+    // Check if school has missing data
+    var s = gS(r.schoolId);
+    var missing = [];
+    if(s){
+      if(!s.ASESORA_NOMBRE) missing.push('Asesor/a');
+      if(!s.ASESORA_CONTACTO) missing.push('Contacto');
+      if(!s.PRES_NOMBRE) missing.push('Presidenta');
+      if(!s.PRES_CONTACTO) missing.push('Cont. presidenta');
+      if(!s.DIRECCION) missing.push('Dirección');
+      if(!s.CUIT) missing.push('CUIT');
+    }
+    var missingHtml = missing.length
+      ? '<div class="rec-missing-row">'+
+          '<span class="rec-miss-label">⚠️ Incompleto:</span> '+
+          missing.map(function(m){return '<span class="miss-pill">'+esc(m)+'</span>';}).join(' ')+
+          ' <button class="btn btn-p btn-xs" onclick="goToRecSchool(\''+esc(r.schoolId)+'\');" title="Abrir ficha para completar datos" style="margin-left:.35rem;background:var(--amber);border:none">✏️ Completar</button>'+
+        '</div>'
+      : '';
     return '<div class="rec-item'+(r.alerta?' alerta':'')+'">'+
       '<div class="rec-av">'+esc((r.schoolNumero||'').split(' ').slice(0,2).join(' '))+'</div>'+
       '<div class="rec-body">'+
@@ -2722,6 +2961,7 @@ function renderRecepcion(){
         '<div class="rec-meta">📅 '+esc(formatFecha(r.fecha))+' · '+esc(r.motivo||'—')+(r.periodo?' · <em>'+esc(pLabel(r.periodo))+'</em>':'')+'</div>'+
         (r.obs?'<div class="rec-obs">"'+esc(r.obs)+'"</div>':'')+
         (r.alerta?'<div class="rec-tags"><span class="alerta-pill">⚠️ '+esc(r.alertaDesc||'Requiere seguimiento')+'</span></div>':'')+
+        missingHtml+
       '</div>'+
       '<div class="rec-actions">'+
         '<span class="rec-date">'+esc(r.fecha||'')+'</span>'+
@@ -2734,23 +2974,28 @@ function renderRecepcion(){
 
 function renderRecStats(){
   var e = el('rec-stats'); if(!e) return;
-  var rec = getRec(); var cur = periodoActual();
-  var enCurso = rec.filter(function(r){return r.periodo===cur;}).length;
-  var alertas = rec.filter(function(r){return r.alerta;}).length;
-  var escuelas = (function(){var s=new Set(rec.map(function(r){return r.schoolId;}));return s.size;})();
+  var rec = getRec();
+  var hoy = new Date().toISOString().slice(0,10);
+  var semana = new Date(Date.now() - 6*864e5).toISOString().slice(0,10);
+  var enHoy = rec.filter(function(r){ return r.fecha === hoy; }).length;
+  var enSemana = rec.filter(function(r){ return r.fecha >= semana; }).length;
+  var alertas = rec.filter(function(r){ return r.alerta; }).length;
   e.innerHTML=
     '<div class="stat"><div class="stat-v">'+rec.length+'</div><div class="stat-l">Total recepciones</div></div>'+
-    '<div class="stat"><div class="stat-v" style="color:var(--navy)">'+enCurso+'</div><div class="stat-l">Período actual</div></div>'+
-    '<div class="stat"><div class="stat-v" style="color:var(--green)">'+escuelas+'</div><div class="stat-l">Escuelas distintas</div></div>'+
+    '<div class="stat"><div class="stat-v" style="color:var(--navy)">'+enHoy+'</div><div class="stat-l">Hoy</div></div>'+
+    '<div class="stat"><div class="stat-v" style="color:var(--green)">'+enSemana+'</div><div class="stat-l">Últimos 7 días</div></div>'+
     '<div class="stat"><div class="stat-v" style="color:var(--red)">'+alertas+'</div><div class="stat-l">Con alertas</div></div>';
 }
 
 function fillRecPerFilter(){
   var sel = el('rec-filter-per'); if(!sel) return;
+  var prev = sel.value; // preserve current selection
   var _allP=getRec().map(function(r){return r.periodo;}).filter(Boolean);
   var _seen={};var periods=[];_allP.forEach(function(p){if(!_seen[p]){_seen[p]=1;periods.push(p);}});periods.sort().reverse();
   sel.innerHTML='<option value="">Todos los períodos</option>'+
     periods.map(function(p){return '<option value="'+esc(p)+'">'+esc(pLabel(p))+'</option>';}).join('');
+  // Restore previous selection if still valid
+  if(prev && sel.querySelector('option[value="'+prev+'"]')) sel.value = prev;
 }
 
 function goToRecSchool(id){
@@ -2760,13 +3005,15 @@ function goToRecSchool(id){
   if(lv) lv.style.display='';
   if(dv) dv.style.display='none';
   openDetail(id);
+  // Check for missing data and scroll to top
+  setTimeout(function(){ window.scrollTo(0,0); }, 100);
 }
 
 function genInformeRecepcion(){
   var rec = getRec(); if(!rec.length){toast('⚠ Sin recepciones registradas');return;}
   var cur = periodoActual();
   var recCur = rec.filter(function(r){return r.periodo===cur;});
-  var escuelasSet = new Set(recCur.map(function(r){return r.schoolId;})); var escuelas = escuelasSet;
+  var escuelasSet = new Set(recCur.map(function(r){return r.schoolId;}));
   var alertas = recCur.filter(function(r){return r.alerta;});
   var motivos = {};
   recCur.forEach(function(r){motivos[r.motivo]=(motivos[r.motivo]||0)+1;});
