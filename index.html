@@ -1799,7 +1799,7 @@ function tabGen(s,coord,cord){
     ff2('Dirección','DIRECCION',s,'c2')+'<div class="ff"><label class="fl">Distrital</label><select class="fs" onchange="setF(\''+s.ID+'\',\'DISTRITAL\',this.value)"><option value="">— Sin distrital —</option><option value="Distrital 1"'+(s.DISTRITAL==="Distrital 1"?' selected':'')+'>Distrital 1</option><option value="Distrital 2"'+(s.DISTRITAL==="Distrital 2"?' selected':'')+'>Distrital 2</option><option value="Distrital 3"'+(s.DISTRITAL==="Distrital 3"?' selected':'')+'>Distrital 3</option></select></div>'+
     '<div class="c2" style="font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-bottom:1px solid var(--navy3);padding-bottom:.5rem;margin:.875rem 0 .25rem">Cooperadora</div>'+
     togRow('Estado cooperadora','TIENE_COOP',s,[['si','Con cooperadora',''],['tuvo','Sin cooperadora activa','oa'],['no','Nunca tuvo cooperadora','or']])+
-    
+    '<div class="ff c2"><label class="fl">Período activo</label><select class="fs" onchange="setF(\''+s.ID+'\',\'PERIODO_COOP\',this.value)">'+buildPeriodOpts(s.PERIODO_COOP||'',true)+'</select></div>'+
 
     '<div class="c2" style="font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-bottom:1px solid var(--navy3);padding-bottom:.5rem;margin:.875rem 0 .25rem">Asesora / Asesor</div>'+
     ff2('Nombre','ASESORA_NOMBRE',s)+
@@ -1828,10 +1828,13 @@ function tabCoop(s,ps){
     togRow('Estado documentación','DOC_ESTADO',s,[['','Sin doc','or'],['PIA firmada','PIA firmada',''],['Con reconocimiento oficial DGCyE','Reconocimiento DGCyE','og']])+
     togRow('Tipo cooperadora','TIPO_COOP',s,[['Activa','Activa',''],['Administrativa','Administrativa',''],['✌️','✌️','']])+
     '<div style="font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-bottom:1px solid var(--navy3);padding-bottom:.5rem;margin:.875rem 0 .875rem">Período activo y asamblea</div>'+
+    '<div class="ff" style="margin-bottom:.875rem">'+
+      '<label class="fl">Período activo</label>'+
+      '<select class="fi" onchange="setF(\''+s.ID+'\',\'PERIODO_COOP\',this.value)">'+
+        buildPeriodOpts(s.PERIODO_COOP||'', true)+
+      '</select>'+
+    '</div>'+
     '<div class="fg" style="margin-bottom:.875rem">'+
-      '<div class="ff"><label class="fl">Período activo</label><select class="fi" onchange="setF(\''+s.ID+'\',\'PERIODO_COOP\',this.value)">'+
-        buildPeriodOpts(s.PERIODO_COOP||'', false)+
-      '</select></div>'+
       togRow('Estado período','ESTADO_PERIODO_COOP',s,[['Vigente','Vigente',''],['Vencida','Vencida','or'],['En renovación','En renovación','oa']])+
       '<div class="ff"><label class="fl">Fecha asamblea</label><input class="fi" type="date" value="'+esc(s.FECHA_ASAMBLEA||'')+'" onchange="setF(\''+s.ID+'\',\'FECHA_ASAMBLEA\',this.value)"></div>'+
       togRow('Estado asamblea','ESTADO_ASAMBLEA',s,[['pendiente','Pendiente',''],['realizada','Realizada','og']])+
