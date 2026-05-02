@@ -1829,7 +1829,9 @@ function tabCoop(s,ps){
     togRow('Tipo cooperadora','TIPO_COOP',s,[['Activa','Activa',''],['Administrativa','Administrativa',''],['✌️','✌️','']])+
     '<div style="font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-bottom:1px solid var(--navy3);padding-bottom:.5rem;margin:.875rem 0 .875rem">Período activo y asamblea</div>'+
     '<div class="fg" style="margin-bottom:.875rem">'+
-      
+      '<div class="ff"><label class="fl">Período activo</label><select class="fi" onchange="setF(\''+s.ID+'\',\'PERIODO_COOP\',this.value)">'+
+        buildPeriodOpts(s.PERIODO_COOP||'', false)+
+      '</select></div>'+
       togRow('Estado período','ESTADO_PERIODO_COOP',s,[['Vigente','Vigente',''],['Vencida','Vencida','or'],['En renovación','En renovación','oa']])+
       '<div class="ff"><label class="fl">Fecha asamblea</label><input class="fi" type="date" value="'+esc(s.FECHA_ASAMBLEA||'')+'" onchange="setF(\''+s.ID+'\',\'FECHA_ASAMBLEA\',this.value)"></div>'+
       togRow('Estado asamblea','ESTADO_ASAMBLEA',s,[['pendiente','Pendiente',''],['realizada','Realizada','og']])+
@@ -3010,38 +3012,107 @@ function goToRecSchool(id){
 }
 
 function genInformeRecepcion(){
-  var rec = getRec(); if(!rec.length){toast('⚠ Sin recepciones registradas');return;}
-  var cur = periodoActual();
-  var recCur = rec.filter(function(r){return r.periodo===cur;});
-  var escuelasSet = new Set(recCur.map(function(r){return r.schoolId;}));
-  var alertas = recCur.filter(function(r){return r.alerta;});
-  var motivos = {};
-  recCur.forEach(function(r){motivos[r.motivo]=(motivos[r.motivo]||0)+1;});
-  var motivosList = Object.keys(motivos).sort(function(a,b){return motivos[b]-motivos[a];}).map(function(k){return k+' ('+motivos[k]+')'}).join(', ');
-  var NL = '\n';
-  var texto =
-    'INFORME DE RECEPCIÓN DE ESCUELAS'+NL+
-    'Comisión de Cooperadoras Escolares – Consejo Escolar La Matanza'+NL+
-    'Período: '+pLabel(cur)+NL+NL+
-    'Durante el período '+pLabel(cur)+' se relevaron '+recCur.length+' recepción'+(recCur.length!==1?'es':'')+
-    ' de '+escuelasSet.size+' establecimiento'+(escuelasSet.size!==1?'s':'')+' en el Consejo Escolar.'+NL+NL+
-    (motivosList?'Los principales motivos de concurrencia fueron: '+motivosList+'.'+NL+NL:'')+
-    (alertas.length?'Se identificaron '+alertas.length+' caso'+(alertas.length!==1?'s':'')+' que requieren seguimiento especial:'+NL+
-      alertas.map(function(r,i){return (i+1)+'. '+r.schoolNombre+(r.alertaDesc?' – '+r.alertaDesc:'');}).join(NL)+NL+NL:'')+
-    'Detalle de recepciones del período:'+NL+
-    recCur.map(function(r,i){
-      return (i+1)+'. '+r.schoolNombre+' ('+r.schoolNumero+') – '+formatFecha(r.fecha)+' – '+r.motivo+(r.obs?' – '+r.obs:'');
-    }).join(NL)+NL+NL+
-    'Acumulado total: '+rec.length+' recepción'+(rec.length!==1?'es':'')+' registradas en el sistema.'+NL+NL+
-    'Generado: '+new Date().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
-  var w=window.open('','_blank','width=700,height=600');
-  if(w){
-    w.document.write('<html><head><title>Informe Recepción</title><style>body{font-family:Arial,sans-serif;padding:2rem;line-height:1.7;color:#111}pre{white-space:pre-wrap;font-family:inherit;font-size:.9rem}button{padding:.5rem 1.25rem;background:#0D2F6E;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-bottom:1rem;font-size:.85rem}</style></head><body>');
-    w.document.write('<button onclick="navigator.clipboard.writeText(document.querySelector(\'pre\').textContent).then(function(){alert(\'✅ Copiado al portapapeles\')})">📋 Copiar texto</button> ');
-    w.document.write('<button onclick="window.print()">🖨️ Imprimir</button>');
-    w.document.write('<pre>'+texto.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>');
-    w.document.write('</body></html>'); w.document.close();
-  } else { prompt('Copiá el texto del informe:', texto); }
+  var rec = getRec();
+  if(!rec.length){ toast('⚠ Sin recepciones registradas'); return; }
+
+  var hoy = new Date();
+  var hoyStr = hoy.toISOString().slice(0,10);
+
+  // ── Rangos ──────────────────────────────────────────────
+  var semanaIni = new Date(hoy); semanaIni.setDate(hoy.getDate()-6);
+  var semanaStr = semanaIni.toISOString().slice(0,10);
+
+  var mesIni = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  var mesStr = mesIni.toISOString().slice(0,10);
+
+  var anioIni = new Date(hoy.getFullYear(), 0, 1);
+  var anioStr = anioIni.toISOString().slice(0,10);
+
+  var recSemana = rec.filter(function(r){ return r.fecha >= semanaStr; });
+  var recMes    = rec.filter(function(r){ return r.fecha >= mesStr; });
+  var recAnio   = rec.filter(function(r){ return r.fecha >= anioStr; });
+
+  function fDate(d){ return d ? d.split('-').reverse().join('/') : '—'; }
+  function pct(n,t){ return t ? Math.round(n/t*100)+'%' : '0%'; }
+
+  function buildResumen(arr, titulo){
+    if(!arr.length) return '<p style="color:#888;font-style:italic">Sin recepciones en este período.</p>';
+    var escuelas = new Set(arr.map(function(r){return r.schoolId;})).size;
+    var alertas = arr.filter(function(r){return r.alerta;});
+    var motivos = {};
+    arr.forEach(function(r){ var m=r.motivo||'Sin motivo'; motivos[m]=(motivos[m]||0)+1; });
+    var motivoRows = Object.keys(motivos).sort(function(a,b){return motivos[b]-motivos[a];})
+      .map(function(k){
+        return '<tr><td>'+k+'</td><td style="text-align:center;font-weight:700">'+motivos[k]+'</td><td style="text-align:center;color:#666">'+pct(motivos[k],arr.length)+'</td></tr>';
+      }).join('');
+    var alertaRows = alertas.map(function(r){
+      return '<tr><td>'+esc(r.schoolNombre||'—')+'</td><td>'+esc(r.schoolNumero||'—')+'</td><td>'+fDate(r.fecha)+'</td><td>'+esc(r.alertaDesc||'Requiere seguimiento')+'</td></tr>';
+    }).join('');
+    var detRows = [].concat(arr).sort(function(a,b){return (b.fecha||'').localeCompare(a.fecha||'');}).map(function(r){
+      return '<tr><td>'+fDate(r.fecha)+'</td><td>'+esc(r.schoolNumero||'—')+'</td><td>'+esc(r.schoolNombre||'—')+'</td><td>'+esc(r.schoolLocalidad||'—')+'</td><td>'+esc(r.motivo||'—')+'</td><td>'+esc(r.obs||'')+'</td><td style="text-align:center">'+(r.alerta?'⚠️':'')+'</td></tr>';
+    }).join('');
+    return '<div class="blk">'+
+      '<div class="kpis">'+
+        '<div class="kpi"><span class="kv">'+arr.length+'</span><span class="kl">Recepciones</span></div>'+
+        '<div class="kpi"><span class="kv">'+escuelas+'</span><span class="kl">Escuelas distintas</span></div>'+
+        '<div class="kpi" style="color:#b91c1c"><span class="kv" style="color:#b91c1c">'+alertas.length+'</span><span class="kl">Con alertas</span></div>'+
+      '</div>'+
+    '</div>'+
+    '<h3>Motivos de concurrencia</h3>'+
+    '<table><thead><tr><th>Motivo</th><th>Cant.</th><th>%</th></tr></thead><tbody>'+motivoRows+'</tbody></table>'+
+    (alertas.length?
+      '<h3 style="color:#b91c1c">⚠️ Alertas / Seguimiento pendiente</h3>'+
+      '<table><thead><tr><th>Escuela</th><th>Nº</th><th>Fecha</th><th>Descripción</th></tr></thead><tbody>'+alertaRows+'</tbody></table>'
+    :'')+
+    '<h3>Detalle de recepciones</h3>'+
+    '<table><thead><tr><th>Fecha</th><th>Nº</th><th>Escuela</th><th>Localidad</th><th>Motivo</th><th>Observaciones</th><th>⚠️</th></tr></thead><tbody>'+detRows+'</tbody></table>';
+  }
+
+  var css = '<style>*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;padding:0;color:#111;font-size:.88rem}'+
+    '.toolbar{display:flex;align-items:center;gap:.5rem;padding:.75rem 1.25rem;background:#0D2F6E;color:#fff;position:sticky;top:0;z-index:10}'+
+    '.toolbar h1{font-size:1rem;margin:0;flex:1}'+
+    '.toolbar button{padding:.4rem .9rem;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:5px;cursor:pointer;font-size:.8rem}'+
+    '.toolbar button:hover{background:rgba(255,255,255,.3)}'+
+    '.tabs{display:flex;gap:0;border-bottom:2px solid #0D2F6E;margin:0 1.25rem}'+
+    '.tab{padding:.6rem 1.2rem;cursor:pointer;font-size:.85rem;font-weight:600;color:#555;border:none;background:none;border-bottom:3px solid transparent;margin-bottom:-2px}'+
+    '.tab.on{color:#0D2F6E;border-bottom-color:#0D2F6E}'+
+    '.tab:hover{color:#0D2F6E}'+
+    '.panel{display:none;padding:1.25rem}'+
+    '.panel.on{display:block}'+
+    'h3{font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:#0D2F6E;margin:1.25rem 0 .5rem;border-bottom:1px solid #dde3f0;padding-bottom:.3rem}'+
+    'table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:1rem}'+
+    'th{background:#0D2F6E;color:#fff;padding:.45rem .6rem;text-align:left;font-weight:600}'+
+    'td{padding:.4rem .6rem;border-bottom:1px solid #eaedf5}'+
+    'tr:hover td{background:#f5f7ff}'+
+    '.kpis{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}'+
+    '.kpi{background:#f0f4ff;border-radius:8px;padding:.75rem 1.25rem;text-align:center;min-width:110px}'+
+    '.kv{display:block;font-size:2rem;font-weight:800;color:#0D2F6E;line-height:1.1}'+
+    '.kl{display:block;font-size:.68rem;color:#666;text-transform:uppercase;letter-spacing:.04em;margin-top:.2rem}'+
+    '.blk{margin-bottom:.5rem}'+
+    '@media print{.toolbar{display:none}.tabs{display:none}.panel{display:block!important;page-break-before:always}.panel:first-child{page-break-before:avoid}}'+
+    '</style>';
+
+  var fechaGen = hoy.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Informe de Recepción</title>'+css+'</head><body>'+
+    '<div class="toolbar">'+
+      '<h1>📥 Informe de Recepción — Consejo Escolar La Matanza</h1>'+
+      '<span style="font-size:.75rem;opacity:.8">'+fechaGen+'</span>'+
+      '<button onclick="window.print()">🖨️ Imprimir</button>'+
+    '</div>'+
+    '<div class="tabs">'+
+      '<button class="tab on" onclick="showTab(\'sem\',this)">📅 Semanal</button>'+
+      '<button class="tab" onclick="showTab(\'mes\',this)">🗓 Mensual</button>'+
+      '<button class="tab" onclick="showTab(\'ani\',this)">📆 Anual</button>'+
+    '</div>'+
+    '<div id="sem" class="panel on"><h3>Semana del '+fDate(semanaStr)+' al '+fDate(hoyStr)+'</h3>'+buildResumen(recSemana,'semanal')+'</div>'+
+    '<div id="mes" class="panel"><h3>Mes de '+hoy.toLocaleDateString('es-AR',{month:'long',year:'numeric'})+'</h3>'+buildResumen(recMes,'mensual')+'</div>'+
+    '<div id="ani" class="panel"><h3>Año '+hoy.getFullYear()+'</h3>'+buildResumen(recAnio,'anual')+'</div>'+
+    '<script>function showTab(id,btn){document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("on")});document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("on")});document.getElementById(id).classList.add("on");btn.classList.add("on");}<\/script>'+
+    '</body></html>';
+
+  var w = window.open('','_blank','width=900,height=700');
+  if(w){ w.document.write(html); w.document.close(); }
+  else { toast('⚠ El navegador bloqueó la ventana emergente. Habilitá los pop-ups para este sitio.'); }
 }
 
 // ════════════════════════════════════════════════════════════
